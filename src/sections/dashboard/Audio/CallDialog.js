@@ -35,7 +35,6 @@ const CallDialog = ({ open, handleClose, token, call_details, incoming , user, r
 
   // const { token } = useSelector((state) => state.auth);
 
-  console.log("call details: ", call_details);
 
   const appID = 306533461;
   const server = "wss://webliveroom306533461-api.coolzcloud.com/ws";
@@ -49,7 +48,6 @@ const CallDialog = ({ open, handleClose, token, call_details, incoming , user, r
   const userID = call_details?.userID;
   const userName = call_details?.userName;
 
-  console.log("psuh data", call_details)
   // Step 1
 
   // Initialize the ZegoExpressEngine instance
@@ -57,7 +55,7 @@ const CallDialog = ({ open, handleClose, token, call_details, incoming , user, r
   const streamID = call_details?.streamID;
 
   const handleDisconnect = (event, reason) => {
-    console.log("missed data", reason)
+    // console.log("missed data", reason)
     if (reason && reason === "backdropClick") {
       return;
     } else {
