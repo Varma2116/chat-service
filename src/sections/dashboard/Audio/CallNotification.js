@@ -37,14 +37,14 @@ const CallNotification = ({ open, handleClose, call_details, updateAudioCallDial
       // Abort call
       handleClose();
     });
-    socket.on("end_video_call", () => {
+    socket.on("end_audio_call", () => {
       // TODO => You can play an audio indicating call is missed at receiver's end
       // Abort call
       handleClose();
     });
     return () => {
       socket?.off("video_call_missed");
-      socket?.off("end_video_call");
+      socket?.off("end_audio_call");
     };
   },[])
 

@@ -35,6 +35,7 @@ const CallDialog = ({ open, handleClose, token, call_details, incoming , user, r
 
   // const { token } = useSelector((state) => state.auth);
 
+  console.log("call details: ", call_details);
 
   const appID = 306533461;
   const server = "wss://webliveroom306533461-api.coolzcloud.com/ws";
@@ -53,7 +54,6 @@ const CallDialog = ({ open, handleClose, token, call_details, incoming , user, r
 
   // Initialize the ZegoExpressEngine instance
   let zg = new ZegoExpressEngine(appID, server);
- 
   const streamID = call_details?.streamID;
 
   const handleDisconnect = (event, reason) => {
@@ -68,21 +68,23 @@ const CallDialog = ({ open, handleClose, token, call_details, incoming , user, r
       socket?.off("audio_call_denied");
       socket?.off("audio_call_missed");
       socket?.off("end_audio_call");
-      // stop publishing local audio stream to remote users, call the stopPublishingStream method with the corresponding stream ID passed to the streamID parameter.
-      zg.stopPublishingStream(streamID);
-      // stop playing a remote audio
-      zg.stopPlayingStream(userID);
-      // destroy stream 
-      zg.destroyStream(audioStreamRef.current);
-      // log out of the room
-      zg.logoutRoom(roomID);
-      // zg.destroyStream(localStream)
-      // handle Call Disconnection => this will be handled as cleanup when this dialog unmounts
-      zg.destroyEngine();
-      zg = null;
-      console.log("publishResult1")
+      if(zg){
+        // stop publishing local audio stream to remote users, call the stopPublishingStream method with the corresponding stream ID passed to the streamID parameter.
+        zg?.stopPublishingStream(streamID);
+        // stop playing a remote audio
+        zg?.stopPlayingStream(userID);
+        // destroy stream 
+        zg?.destroyStream(audioStreamRef.current);
+        // log out of the room
+        zg?.logoutRoom(roomID);
+        // zg.destroyStream(localStream)
+        // handle Call Disconnection => this will be handled as cleanup when this dialog unmounts
+        zg?.destroyEngine();
+        zg = null;
+        socket.emit("end_audio_call", {to:call_details?.streamID, from: userID})
+      }
+      
      
-      socket.emit("end_audio_call", {to:call_details?.streamID, from: userID})
       
 
       // at the end call handleClose Dialog
@@ -94,18 +96,18 @@ const CallDialog = ({ open, handleClose, token, call_details, incoming , user, r
 
     // create a job to decline call automatically after 30 sec if not picked
 
-    // const timer = setTimeout(() => {
-    //   // TODO => You can play an audio indicating missed call at this line at sender's end
+    const timer = setTimeout(() => {
+      // TODO => You can play an audio indicating missed call at this line at sender's end
 
-    //   socket.emit(
-    //     "audio_call_not_picked",
-    //     { to: streamID, from: userID },
-    //     () => {
-    //       // TODO abort call => Call verdict will be marked as Missed
-    //       handleDisconnect();
-    //     }
-    //   );
-    // }, 10 * 1000);
+      socket.emit(
+        "audio_call_not_picked",
+        { to: streamID, from: userID },
+        () => {
+          // TODO abort call => Call verdict will be marked as Missed
+          handleDisconnect();
+        }
+      );
+    }, 10 * 1000);
    
   // console.log("timer vara:", timer)
 
@@ -119,7 +121,7 @@ const CallDialog = ({ open, handleClose, token, call_details, incoming , user, r
       // TODO => You can play an audio indicating call is started
       // clear timeout for "audio_call_not_picked"
 
-      // clearTimeout(timer);
+      clearTimeout(timer);
     });
 
     if (!incoming) {

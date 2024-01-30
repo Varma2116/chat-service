@@ -12,7 +12,7 @@ const host = "http://localhost:3000"
 const user_id = "659708ddbb99d01da3ca0a6f";
 // "659708ddbb99d01da3ca0a6f";
 let token =
-"eyJhbGciOiJSUzI1NiIsImtpZCI6IjViNjAyZTBjYTFmNDdhOGViZmQxMTYwNGQ5Y2JmMDZmNGQ0NWY4MmIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcG9sYXItMTQzNDMiLCJhdWQiOiJwb2xhci0xNDM0MyIsImF1dGhfdGltZSI6MTcwNjIzODI3MywidXNlcl9pZCI6Ilc3TWlCeVFLcGtlWWlrYXpOMjdDZGF1Z3h0ajIiLCJzdWIiOiJXN01pQnlRS3BrZVlpa2F6TjI3Q2RhdWd4dGoyIiwiaWF0IjoxNzA2MjM4MjczLCJleHAiOjE3MDYyNDE4NzMsImVtYWlsIjoibjE1MDIzMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibjE1MDIzMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.gZVVfun1jQdURt1ks2FaJSiooofDvtkHzbltoQKuXL21iu9cYF4cFhoqLwmm5iFNALdUxRDZQtFQZECUVwXdGpzMgIp263wk8-VpHvvv2BWdKqTyb3M9YJLy17N3dburZzdjb6CFgd1nxXaYlTiCM2B2jyERDVfCq7nf5LezMVhkXUCiGDAod0SIXuUcmJs9eg3SRlvy6-RjuBlB5Eh8iYFL9xN3IXf5b0T6Ev9WdnY1L6XanS2k5NcF6fHJ9ciVZjJ1Y83-zQFXLS3_LgK0XZ9R2KcJlLqEXdpZV1o-VCzNTKOF1N0R21lhzLsVdUZ6L-uyXnfjY-tacVwla37ALQ"
+"eyJhbGciOiJSUzI1NiIsImtpZCI6IjViNjAyZTBjYTFmNDdhOGViZmQxMTYwNGQ5Y2JmMDZmNGQ0NWY4MmIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcG9sYXItMTQzNDMiLCJhdWQiOiJwb2xhci0xNDM0MyIsImF1dGhfdGltZSI6MTcwNjU4NDE1MiwidXNlcl9pZCI6Ilc3TWlCeVFLcGtlWWlrYXpOMjdDZGF1Z3h0ajIiLCJzdWIiOiJXN01pQnlRS3BrZVlpa2F6TjI3Q2RhdWd4dGoyIiwiaWF0IjoxNzA2NTg0MTUyLCJleHAiOjE3MDY1ODc3NTIsImVtYWlsIjoibjE1MDIzMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibjE1MDIzMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.NF32cD6p17oTplKGTXZid97J1P-LXYYtk6Hfoe8NTnYQFNcU6hYbAdKunQDa6B4L7nApOmonPgbc-H79k5PzQAY3TlyH6CEyaDj_JCUueTbzDc4iI9BCl9MInUP6D0n6JtSGpjbx6SjY3RJ4juWcSelpuEYr7Q-4T-VUustyQ1ecQxI4bq0qHeu4qeqkJ0ZemYXzfjMSDGRnv7riE2B-R3pCOLX5fCWlguruOdGdkpqhvcto8gHeOMU0AnfCRV5ECi0DEatqw5J3FyK0j7SWL1DHAxB39wMQaEJnVLPY3A46FA4AS8FuR01OJuOIT23rra9H0xgHy8EHeeLKD0Br6w"
 // "eyJhbGciOiJSUzI1NiIsImtpZCI6ImQxNjg5NDE1ZWMyM2EzMzdlMmJiYWE1ZTNlNjhiNjZkYzk5MzY4ODQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcG9sYXItMTQzNDMiLCJhdWQiOiJwb2xhci0xNDM0MyIsImF1dGhfdGltZSI6MTcwNDg4NTMyNCwidXNlcl9pZCI6Ilc3TWlCeVFLcGtlWWlrYXpOMjdDZGF1Z3h0ajIiLCJzdWIiOiJXN01pQnlRS3BrZVlpa2F6TjI3Q2RhdWd4dGoyIiwiaWF0IjoxNzA0ODg1MzI0LCJleHAiOjE3MDQ4ODg5MjQsImVtYWlsIjoibjE1MDIzMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibjE1MDIzMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.nMSyeWVt0dqQPDPBge_9PyjFzVvu9YLr6Z0_ik_3VUb6J45HkNpi4KgpzdDVejiRLdThX9lza9DoKJIgwUTQhF7aB28vvRbPSWebupV8H1mfw7RX2gEt4XEBYeapbk3HfG-SsiDvc2JcFwV8-YUuAIwV1t8eYv2ytopMh5jN71rVQpnQB664l9UQCru5Qw6eREdOzcz_SkbR9z-25mFpJZmeTySonbqtY8iX9-s8kNhMDW1cLKoCcgtmZ7za6ygX7p1u3mpcbtK8BCRhbGwhsYS0HRuhsMHjQzJz6L7U7fljxnlEInRFLacK5hjNVRtvQFjGUqhy0B8F4Lt8TlSlGw"
 const Test = () => {
     const [friends, setFriends] = useState([]);
@@ -20,11 +20,14 @@ const Test = () => {
     const [message, setMessage] = useState([]);
     const [roomId, setRoomId] = useState(null);
     const [isGroup, setIsGroup] = useState(false);
+    const [socketId, setSocketId] = useState("");
     // const [groups, setGroups] = useState([]);
 
     const handleReceiveMessageRef = useRef();
 
     const handleReceiveGroupMessageRef = useRef();
+
+    const handleUserConnectedRef = useRef();
 
 
     const [directChat, setDirectChat] = useState({
@@ -117,14 +120,16 @@ const Test = () => {
 
 
     useEffect(() => {
+        console.log("socket", socket);
         if (!socket) {
             connectSocket(user_id);
         } else {
-
+            console.log("else socket", socket?.connected);
             // getFriends();
             // getUser();
             // getGroups();
             socket.emit("get_direct_conversations", { user_id }, (data) => {
+                console.log("event emited");
                 getConversations(data);
             });
 
@@ -140,6 +145,10 @@ const Test = () => {
             socket.on("video_call_notification", (data) => {
                 // TODO => dispatch an action to add this in call_queue
                 pushToVideoCallQueue({ call: data, incoming: true });
+            });
+
+            socket.on("user_connected", (data) => {
+                handleUserConnectedRef.current(data);
             });
 
             // socket.on("start_chat", (data) => {
@@ -172,6 +181,8 @@ const Test = () => {
             // socket?.off("start_chat");
             socket?.off("new_message");
             socket?.off("new_group_message");
+            socket?.off("audio_call_notification");
+            socket?.off("video_call_notification");
         };
     }, [socket])
 
@@ -213,8 +224,16 @@ const Test = () => {
         }
     }
 
+    const handleUserConnected = ({ socketId }) => {
+        setSocketId(socketId)
+    }
+
     handleReceiveMessageRef.current = handleNewMessage
     handleReceiveGroupMessageRef.current = handleNewGroupMessage
+    handleReceiveMessageRef.current = handleNewMessage
+
+    handleUserConnectedRef.current = handleUserConnected;
+
 
 
     const getConversations = (conversationsData) => {
@@ -400,7 +419,6 @@ const Test = () => {
                 }
             )
             .then((response) => {
-                console.log(response);
                 pushToAudioCallQueue({
                     call: response.data.data,
                     incoming: false,
@@ -655,7 +673,7 @@ const Test = () => {
                             onClick={() => handleAudioCall(directChat?.currentConversation?.user_id)}
                         >audio call</button>
                         <button
-                        onClick={() => handleVideoCall(directChat?.currentConversation?.user_id)}
+                            onClick={() => handleVideoCall(directChat?.currentConversation?.user_id)}
                         >video call</button>
                     </div>
                 </div>
@@ -681,7 +699,7 @@ const Test = () => {
             )}
             {videoCall?.open_video_notification_dialog && (
                 <VideoCallNotification
-                    open={videoCall?.open_video_notification_dialog} 
+                    open={videoCall?.open_video_notification_dialog}
                     call_details={videoCall.call_queue?.[0]}
                     handleClose={handleVideoClose}
                     updateVideoCallDialog={updateVideoCallDialog}
