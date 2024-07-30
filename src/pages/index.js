@@ -1,19 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { socket, connectSocket } from "../socket";
 import axios from 'axios';
-import "./index.scss";
-import AudioCallDialog from "../sections/dashboard/Audio/CallDialog"
-import { async } from 'emoji-mart';
-import AudioCallNotification from "../sections/dashboard/Audio/CallNotification";
-import VideoCallNotification from "../sections/dashboard/video/CallNotification";
-import VideoCallDialog from "../sections/dashboard/video/CallDialog";
+import "./index.css";
+// import AudioCallDialog from "../sections/dashboard/Audio/CallDialog"
+// import AudioCallNotification from "../sections/dashboard/Audio/CallNotification";
+// import VideoCallNotification from "../sections/dashboard/video/CallNotification";
+// import VideoCallDialog from "../sections/dashboard/video/CallDialog";
 
-const host = "http://localhost:3000"
+const host = "https://api.aroundu.in"
 const user_id = "659708ddbb99d01da3ca0a6f";
 // "659708ddbb99d01da3ca0a6f";
-let token =
-"eyJhbGciOiJSUzI1NiIsImtpZCI6IjViNjAyZTBjYTFmNDdhOGViZmQxMTYwNGQ5Y2JmMDZmNGQ0NWY4MmIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcG9sYXItMTQzNDMiLCJhdWQiOiJwb2xhci0xNDM0MyIsImF1dGhfdGltZSI6MTcwNjU4NDE1MiwidXNlcl9pZCI6Ilc3TWlCeVFLcGtlWWlrYXpOMjdDZGF1Z3h0ajIiLCJzdWIiOiJXN01pQnlRS3BrZVlpa2F6TjI3Q2RhdWd4dGoyIiwiaWF0IjoxNzA2NTg0MTUyLCJleHAiOjE3MDY1ODc3NTIsImVtYWlsIjoibjE1MDIzMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibjE1MDIzMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.NF32cD6p17oTplKGTXZid97J1P-LXYYtk6Hfoe8NTnYQFNcU6hYbAdKunQDa6B4L7nApOmonPgbc-H79k5PzQAY3TlyH6CEyaDj_JCUueTbzDc4iI9BCl9MInUP6D0n6JtSGpjbx6SjY3RJ4juWcSelpuEYr7Q-4T-VUustyQ1ecQxI4bq0qHeu4qeqkJ0ZemYXzfjMSDGRnv7riE2B-R3pCOLX5fCWlguruOdGdkpqhvcto8gHeOMU0AnfCRV5ECi0DEatqw5J3FyK0j7SWL1DHAxB39wMQaEJnVLPY3A46FA4AS8FuR01OJuOIT23rra9H0xgHy8EHeeLKD0Br6w"
-// "eyJhbGciOiJSUzI1NiIsImtpZCI6ImQxNjg5NDE1ZWMyM2EzMzdlMmJiYWE1ZTNlNjhiNjZkYzk5MzY4ODQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcG9sYXItMTQzNDMiLCJhdWQiOiJwb2xhci0xNDM0MyIsImF1dGhfdGltZSI6MTcwNDg4NTMyNCwidXNlcl9pZCI6Ilc3TWlCeVFLcGtlWWlrYXpOMjdDZGF1Z3h0ajIiLCJzdWIiOiJXN01pQnlRS3BrZVlpa2F6TjI3Q2RhdWd4dGoyIiwiaWF0IjoxNzA0ODg1MzI0LCJleHAiOjE3MDQ4ODg5MjQsImVtYWlsIjoibjE1MDIzMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibjE1MDIzMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.nMSyeWVt0dqQPDPBge_9PyjFzVvu9YLr6Z0_ik_3VUb6J45HkNpi4KgpzdDVejiRLdThX9lza9DoKJIgwUTQhF7aB28vvRbPSWebupV8H1mfw7RX2gEt4XEBYeapbk3HfG-SsiDvc2JcFwV8-YUuAIwV1t8eYv2ytopMh5jN71rVQpnQB664l9UQCru5Qw6eREdOzcz_SkbR9z-25mFpJZmeTySonbqtY8iX9-s8kNhMDW1cLKoCcgtmZ7za6ygX7p1u3mpcbtK8BCRhbGwhsYS0HRuhsMHjQzJz6L7U7fljxnlEInRFLacK5hjNVRtvQFjGUqhy0B8F4Lt8TlSlGw"
+let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjBjYjQyNzQyYWU1OGY0ZGE0NjdiY2RhZWE0Yjk1YTI5ZmJhMGM1ZjkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcG9sYXItMTQzNDMiLCJhdWQiOiJwb2xhci0xNDM0MyIsImF1dGhfdGltZSI6MTcyMjM1MTMxMCwidXNlcl9pZCI6Ilc3TWlCeVFLcGtlWWlrYXpOMjdDZGF1Z3h0ajIiLCJzdWIiOiJXN01pQnlRS3BrZVlpa2F6TjI3Q2RhdWd4dGoyIiwiaWF0IjoxNzIyMzUxMzEwLCJleHAiOjE3MjIzNTQ5MTAsImVtYWlsIjoibjE1MDIzMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibjE1MDIzMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.qCp3GKAL_P06KEsmtGzEV1um942ZjmqBEYnli52U1DdjY-trsvSvLYx7YKU88mIP3uWAd5vNt2ump8YRQY6xFN7bn_r2VWQLV_igJ6FGKpRWqe-YczKLwJ8EzXqaJloq5f5_lZbCh8ZrwdZrjZbIVNTGqquJWkTYoD9u2w98hOcq2EFa7Wk9I_gOxYLgeD92NhqvYe3E5vwiZ4e__z3man0VwtjDu8y0F56y3FFXHwKUvABNurHUEN0d8hiE184ulsply2bc6Uxcn_ErcaHcerQKA61pq4Z3BUJ4nW-BMoTtqFU0WYneag33JIWgoHqRCSQ5X9nBHLzn_ovvbmDm6Q"
 const Test = () => {
     const [friends, setFriends] = useState([]);
     const [user, setUser] = useState({});
@@ -62,61 +59,61 @@ const Test = () => {
     )
 
 
-    const pushToAudioCallQueue = (action) => {
-        // check audio_call_queue in redux store
-        let audio_call_queue_temp = { ...audioCall }
-        if (audio_call_queue_temp?.call_queue.length === 0) {
-            audio_call_queue_temp = { ...audio_call_queue_temp, call_queue: [...audio_call_queue_temp.call_queue, action?.call] }
-            if (action.incoming) {
-                audio_call_queue_temp = {
-                    ...audio_call_queue_temp,
-                    open_audio_notification_dialog: true,
-                    incoming: true
-                }
-            }
-            else {
-                audio_call_queue_temp = {
-                    ...audio_call_queue_temp,
-                    open_audio_dialog: true,
-                    incoming: false
-                }
-            }
-            setAudioCall(audio_call_queue_temp)
-        } else {
-            // if queue is not empty then emit user_is_busy => in turn server will send this event to sender of call
-            console.log("vara busy", action)
+    // const pushToAudioCallQueue = (action) => {
+    //     // check audio_call_queue in redux store
+    //     let audio_call_queue_temp = { ...audioCall }
+    //     if (audio_call_queue_temp?.call_queue.length === 0) {
+    //         audio_call_queue_temp = { ...audio_call_queue_temp, call_queue: [...audio_call_queue_temp.call_queue, action?.call] }
+    //         if (action.incoming) {
+    //             audio_call_queue_temp = {
+    //                 ...audio_call_queue_temp,
+    //                 open_audio_notification_dialog: true,
+    //                 incoming: true
+    //             }
+    //         }
+    //         else {
+    //             audio_call_queue_temp = {
+    //                 ...audio_call_queue_temp,
+    //                 open_audio_dialog: true,
+    //                 incoming: false
+    //             }
+    //         }
+    //         setAudioCall(audio_call_queue_temp)
+    //     } else {
+    //         // if queue is not empty then emit user_is_busy => in turn server will send this event to sender of call
+    //         console.log("vara busy", action)
 
-            socket.emit("user_is_busy_audio_call", { ...action });
-        }
-    }
+    //         socket.emit("user_is_busy_audio_call", { ...action });
+    //     }
+    // }
 
-    const pushToVideoCallQueue = (action) => {
-        // check audio_call_queue in redux store
-        let video_call_queue_temp = { ...videoCall }
-        if (video_call_queue_temp?.call_queue.length === 0) {
-            video_call_queue_temp = { ...video_call_queue_temp, call_queue: [...video_call_queue_temp.call_queue, action?.call] }
-            if (action.incoming) {
-                video_call_queue_temp = {
-                    ...video_call_queue_temp,
-                    open_video_notification_dialog: true,
-                    incoming: true
-                }
-            }
-            else {
-                video_call_queue_temp = {
-                    ...video_call_queue_temp,
-                    open_video_dialog: true,
-                    incoming: false
-                }
-            }
-            setVideoCall(video_call_queue_temp)
-        } else {
-            // if queue is not empty then emit user_is_busy => in turn server will send this event to sender of call
-            console.log("vara busy", action)
+    // const pushToVideoCallQueue = (action) => {
+    //     // check audio_call_queue in redux store
+    //     let video_call_queue_temp = { ...videoCall }
+    //     if (video_call_queue_temp?.call_queue.length === 0) {
+    //         video_call_queue_temp = { ...video_call_queue_temp, call_queue: [...video_call_queue_temp.call_queue, action?.call] }
+    //         if (action.incoming) {
+    //             video_call_queue_temp = {
+    //                 ...video_call_queue_temp,
+    //                 open_video_notification_dialog: true,
+    //                 incoming: true
+    //             }
+    //         }
+    //         else {
+    //             video_call_queue_temp = {
+    //                 ...video_call_queue_temp,
+    //                 open_video_dialog: true,
+    //                 incoming: false
+    //             }
+    //         }
+    //         setVideoCall(video_call_queue_temp)
+    //     } else {
+    //         // if queue is not empty then emit user_is_busy => in turn server will send this event to sender of call
+    //         console.log("vara busy", action)
 
-            socket.emit("user_is_busy_audio_call", { ...action });
-        }
-    }
+    //         socket.emit("user_is_busy_audio_call", { ...action });
+    //     }
+    // }
 
 
     useEffect(() => {
@@ -137,15 +134,15 @@ const Test = () => {
                 getGroupConversations(data);
             });
 
-            socket.on("audio_call_notification", (data) => {
-                // TODO => dispatch an action to add this in call_queue
-                pushToAudioCallQueue({ call: data });
-            });
+            // socket.on("audio_call_notification", (data) => {
+            //     // TODO => dispatch an action to add this in call_queue
+            //     pushToAudioCallQueue({ call: data });
+            // });
 
-            socket.on("video_call_notification", (data) => {
-                // TODO => dispatch an action to add this in call_queue
-                pushToVideoCallQueue({ call: data, incoming: true });
-            });
+            // socket.on("video_call_notification", (data) => {
+            //     // TODO => dispatch an action to add this in call_queue
+            //     pushToVideoCallQueue({ call: data, incoming: true });
+            // });
 
             socket.on("user_connected", (data) => {
                 handleUserConnectedRef.current(data);
@@ -398,83 +395,83 @@ const Test = () => {
         });
     }
 
-    const handleAudioCall = async (userId) => {
-        let audio_call_queue_temp = { ...audioCall }
-        audio_call_queue_temp = {
-            ...audio_call_queue_temp,
-            call_queue: [],
-            open_audio_notification_dialog: false,
-            incoming: false
-        }
-        setAudioCall(audio_call_queue_temp);
-        await axios
-            .post(
-                "http://localhost:3000/user/start-audio-call",
-                { id: userId },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
-            .then((response) => {
-                pushToAudioCallQueue({
-                    call: response.data.data,
-                    incoming: false,
-                    to: userId,
-                    from: user_id
-                })
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
+    // const handleAudioCall = async (userId) => {
+    //     let audio_call_queue_temp = { ...audioCall }
+    //     audio_call_queue_temp = {
+    //         ...audio_call_queue_temp,
+    //         call_queue: [],
+    //         open_audio_notification_dialog: false,
+    //         incoming: false
+    //     }
+    //     setAudioCall(audio_call_queue_temp);
+    //     await axios
+    //         .post(
+    //             "http://localhost:3000/user/start-audio-call",
+    //             { id: userId },
+    //             {
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             }
+    //         )
+    //         .then((response) => {
+    //             pushToAudioCallQueue({
+    //                 call: response.data.data,
+    //                 incoming: false,
+    //                 to: userId,
+    //                 from: user_id
+    //             })
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
 
-    const handleVideoCall = async (userId) => {
-        let video_call_queue_temp = { ...videoCall }
-        video_call_queue_temp = {
-            ...video_call_queue_temp,
-            call_queue: [],
-            open_video_notification_dialog: false,
-            incoming: false
-        }
-        setVideoCall(video_call_queue_temp);
-        await axios
-            .post(
-                "http://localhost:3000/user/start-video-call",
-                { id: userId },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
-            .then((response) => {
-                console.log(response);
-                pushToVideoCallQueue({
-                    call: response.data.data,
-                    incoming: false,
-                    to: userId,
-                    from: user_id
-                })
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
+    // const handleVideoCall = async (userId) => {
+    //     let video_call_queue_temp = { ...videoCall }
+    //     video_call_queue_temp = {
+    //         ...video_call_queue_temp,
+    //         call_queue: [],
+    //         open_video_notification_dialog: false,
+    //         incoming: false
+    //     }
+    //     setVideoCall(video_call_queue_temp);
+    //     await axios
+    //         .post(
+    //             "http://localhost:3000/user/start-video-call",
+    //             { id: userId },
+    //             {
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             }
+    //         )
+    //         .then((response) => {
+    //             console.log(response);
+    //             pushToVideoCallQueue({
+    //                 call: response.data.data,
+    //                 incoming: false,
+    //                 to: userId,
+    //                 from: user_id
+    //             })
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
 
-    const handleCloseAudioDialog = () => {
-        let audio_call_queue_temp = { ...audioCall }
-        audio_call_queue_temp = {
-            ...audio_call_queue_temp,
-            call_queue: [],
-            open_audio_notification_dialog: false,
-            open_audio_dialog: false
-        }
-        setAudioCall(audio_call_queue_temp)
-    };
+    // const handleCloseAudioDialog = () => {
+    //     let audio_call_queue_temp = { ...audioCall }
+    //     audio_call_queue_temp = {
+    //         ...audio_call_queue_temp,
+    //         call_queue: [],
+    //         open_audio_notification_dialog: false,
+    //         open_audio_dialog: false
+    //     }
+    //     setAudioCall(audio_call_queue_temp)
+    // };
 
     const getUser = async () => {
         await axios
@@ -558,49 +555,49 @@ const Test = () => {
         setMessage("");
     }
 
-    const handleAudioClose = () => {
-        let audio_call_queue_temp = { ...audioCall }
-        audio_call_queue_temp = {
-            ...audio_call_queue_temp,
-            open_audio_notification_dialog: false,
-            open_audio_dialog: false,
-            incoming: false,
-            call_queue: []
-        }
-        setAudioCall(audio_call_queue_temp)
-    }
+    // const handleAudioClose = () => {
+    //     let audio_call_queue_temp = { ...audioCall }
+    //     audio_call_queue_temp = {
+    //         ...audio_call_queue_temp,
+    //         open_audio_notification_dialog: false,
+    //         open_audio_dialog: false,
+    //         incoming: false,
+    //         call_queue: []
+    //     }
+    //     setAudioCall(audio_call_queue_temp)
+    // }
 
-    const handleVideoClose = () => {
-        let video_call_queue_temp = { ...videoCall }
-        video_call_queue_temp = {
-            ...video_call_queue_temp,
-            open_video_notification_dialog: false,
-            open_video_dialog: false,
-            incoming: false,
-            call_queue: []
-        }
-        setVideoCall(video_call_queue_temp)
-    }
+    // const handleVideoClose = () => {
+    //     let video_call_queue_temp = { ...videoCall }
+    //     video_call_queue_temp = {
+    //         ...video_call_queue_temp,
+    //         open_video_notification_dialog: false,
+    //         open_video_dialog: false,
+    //         incoming: false,
+    //         call_queue: []
+    //     }
+        // setVideoCall(video_call_queue_temp)
+    // }
 
-    const updateAudioCallDialog = (state) => {
-        let audio_call_queue_temp = { ...audioCall }
-        audio_call_queue_temp = {
-            ...audio_call_queue_temp,
-            open_audio_notification_dialog: false,
-            open_audio_dialog: state
-        }
-        setAudioCall(audio_call_queue_temp)
-    }
+    // const updateAudioCallDialog = (state) => {
+    //     let audio_call_queue_temp = { ...audioCall }
+    //     audio_call_queue_temp = {
+    //         ...audio_call_queue_temp,
+    //         open_audio_notification_dialog: false,
+    //         open_audio_dialog: state
+    //     }
+    //     setAudioCall(audio_call_queue_temp)
+    // }
 
-    const updateVideoCallDialog = (state) => {
-        let video_call_queue_temp = { ...videoCall }
-        video_call_queue_temp = {
-            ...video_call_queue_temp,
-            open_video_notification_dialog: false,
-            open_video_dialog: state
-        }
-        setVideoCall(video_call_queue_temp)
-    }
+    // const updateVideoCallDialog = (state) => {
+    //     let video_call_queue_temp = { ...videoCall }
+    //     video_call_queue_temp = {
+    //         ...video_call_queue_temp,
+    //         open_video_notification_dialog: false,
+    //         open_video_dialog: state
+    //     }
+    //     setVideoCall(video_call_queue_temp)
+    // }
     return (
         <>
             <button onClick={() => {
@@ -669,16 +666,16 @@ const Test = () => {
                         <button
                             onClick={() => sendMessage()}
                         >Send</button>
-                        <button
+                        {/* <button
                             onClick={() => handleAudioCall(directChat?.currentConversation?.user_id)}
                         >audio call</button>
                         <button
                             onClick={() => handleVideoCall(directChat?.currentConversation?.user_id)}
-                        >video call</button>
+                        >video call</button> */}
                     </div>
                 </div>
             </div>
-            {audioCall?.open_audio_notification_dialog && (
+            {/* {audioCall?.open_audio_notification_dialog && (
                 <AudioCallNotification
                     open={audioCall?.open_audio_notification_dialog}
                     call_details={audioCall.call_queue?.[0]}
@@ -714,7 +711,7 @@ const Test = () => {
                     handleClose={handleVideoClose}
                     reset={handleVideoClose}
                 />
-            )}
+            )} */}
         </>
     )
 }
